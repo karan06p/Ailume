@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import {  neobrutalism } from "@clerk/themes";
+import { neobrutalism } from "@clerk/themes";
+import Head from "next/head";
 
 export const metadata: Metadata = {
-  title: "Ailume",
+  title: "Pixalix",
   description: "AI photo editor",
 };
 
@@ -14,20 +15,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-    appearance={{
-      baseTheme: neobrutalism,
-      layout: {
-        socialButtonsPlacement: "bottom"
-      }
-    }
-    }>
-      <head>
-        <link rel="shortcut icon" href="/logoipsum-296.svg" type="image/x-icon" />
-      </head>
-      <html lang="en">
+    <html lang="en">
+      <ClerkProvider
+        appearance={{
+          baseTheme: neobrutalism,
+          layout: {
+            socialButtonsPlacement: "bottom",
+          },
+        }}
+      >
+        <Head>
+          <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+        </Head>
         <body>{children}</body>
-      </html>
-    </ClerkProvider>
+      </ClerkProvider>
+    </html>
   );
 }
