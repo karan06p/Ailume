@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { neobrutalism } from "@clerk/themes";
-import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "Pixalix",
@@ -24,9 +23,9 @@ export default function RootLayout({
           },
         }}
       >
-        <Head>
-          <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
-        </Head>
+        <head>
+          <link rel="shortcut icon" href='/favicon.png' type="image/x-icon" />
+        </head>
         <body>{children}</body>
       </ClerkProvider>
     </html>

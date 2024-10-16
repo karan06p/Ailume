@@ -1,0 +1,109 @@
+"use client";
+
+import { PlusIcon } from "@radix-ui/react-icons";
+import { CldImage, CldUploadWidget } from "next-cloudinary";
+import { useState } from "react";
+
+const ImageUploader = () => {
+  const [ogImageId, setOgImageId] = useState<any>();
+  const [isUploaded, setIsUploaded] = useState(false);
+  const [applyTransformation, setApplyTransformation] = useState(false);
+  const [prompt, setPrompt] = useState<string | undefined>();
+  const [promptValue, setPromptValue] = useState<string | undefined>();
+
+  return (
+    <div className="pl-5 pt-5 w-[50rem] mr-8">
+      <div className="flex-col items-start ">
+        <h3 className="font-bold text-3xl mb-3">Extract</h3>
+        <p>Extract objects from images by just giving a prompt</p>
+      </div>
+
+      {/* Image Title */}
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col mt-7 gap-3">
+          <p className="font-semibold text-xl">What to extract</p>
+          <input
+            type="text"
+            name="image-title"
+            id="title"
+            className="w-auto shadow-lg rounded-lg border-2 p-3"
+            required
+            onChange={(e) => setPromptValue(e.currentTarget.value)}
+            placeholder="for eg. hair"
+          />
+        </div>
+
+        <div className="w-full">
+          <div className="md:flex w-full md:gap-6">
+            <div className="w-full md:w-1/2">
+              <p className="font-semibold text-xl mb-2">Original Image</p>
+              <div className="h-[20rem] w-full border-2 shadow-lg rounded-lg flex justify-center items-center relative">
+                {isUploaded ? (
+                  <CldImage
+                    alt="uploaded-image"
+                    src={ogImageId}
+                    sizes="10vw"
+                    fill
+                    style={{ objectFit: "contain" }} // Make the image responsive and fit the container
+                  />
+                ) : (
+                  <CldUploadWidget
+                    uploadPreset="pixalix"
+                    onSuccess={(result: any, { widget }) => {
+                      const publicId = result.info.public_id;
+                      setOgImageId(publicId);
+                      widget.close();
+                      setIsUploaded(true);
+                    }}
+                  >
+                    {({ open }) => {
+                      return (
+                        <button
+                          onClick={() => open()}
+                          className="bg-blue-800 p-3 rounded-full text-xl text-white"
+                        >
+                          <PlusIcon />
+                        </button>
+                      );
+                    }}
+                  </CldUploadWidget>
+                )}
+              </div>
+            </div>
+
+            <div className="w-full md:w-1/2 mt-7 md:mt-0">
+              <p className="font-semibold text-xl mb-2">Transformed</p>
+              <div className="h-[20rem] w-full border-2 shadow-lg rounded-lg flex justify-center items-center relative">
+                {applyTransformation ? (
+                  <CldImage
+                    alt="transformed-image"
+                    src={ogImageId}
+                    sizes="10vw"
+                    fill
+                    style={{ objectFit: "contain" }}
+                    extract={prompt}
+                  />
+                ) : (
+                  "Transformed Image"
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <button
+          className="bg-blue-800 text-white p-4 rounded-full"
+          onClick={() => {
+            setPrompt(promptValue);
+            setApplyTransformation(true);
+          }}
+        >
+          Extract
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default ImageUploader;

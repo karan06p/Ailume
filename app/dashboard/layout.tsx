@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
+import ImageUploader from "@/components/ImageUploader";
 
 export interface UserDetailsProps {
   isSignedIn: boolean | undefined;
@@ -63,7 +64,7 @@ export default function DashboardLayout({
       <Navbar isSignedIn={isSignedIn} />
       <Sidebar isSignedIn={isSignedIn} firstName={user?.firstName} />
       <div className="md:ml-[19rem]">
-      {children}        
+      {children} 
       </div>
 
     </div>

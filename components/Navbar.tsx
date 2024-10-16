@@ -9,7 +9,7 @@ import { UserDetailsProps } from '@/app/dashboard/layout'
 
 export default function Navbar({isSignedIn} : UserDetailsProps) {
   return (
-    <div className='md:hidden w-full flex justify-between items-center py-6 px-6 sm:px-8'>
+    <div className='md:hidden w-full flex justify-between items-center py-5 px-6 sm:px-8 shadow-lg rounded-xl'>
       <Image src={logo} alt='logo' width={170} height={170} className='sm:w-60'/>
       <div className={`${isSignedIn ? '' : 'hidden'} flex items-center gap-8`}>
         <UserButton />
