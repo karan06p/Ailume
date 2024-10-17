@@ -11,11 +11,16 @@ import { UserDetailsProps } from "@/app/dashboard/layout";
 import { WiStars } from "react-icons/wi";
 import { RiColorFilterLine } from "react-icons/ri";
 import { TbPhotoScan } from "react-icons/tb";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MdOutlineFindReplace } from "react-icons/md";
 import { IoColorWandOutline } from "react-icons/io5";
 
 export const routes = [
+  {
+    title: "Home",
+    icon: <GoHomeFill />,
+    route: "/dashboard",
+  },
   {
     title: "Extract Object",
     icon: <BsImageFill />,
@@ -49,11 +54,12 @@ export const routes = [
 ];
 
 export default function Sidebar({ isSignedIn, firstName }: UserDetailsProps) {
+  const router = useRouter()
   const pathname = usePathname()
   const progress = 5;
 
   return (
-    <div className="hidden md:flex w-72 space-y-4 flex-col h-full text-primary bg-secondary fixed left-0 shadow-lg rounded-md py-8 px-6">
+    <div className="hidden md:flex w-72 space-y-4 flex-col h-full text-primary bg-secondary fixed left-0 shadow-lg rounded-md py-8 px-6 max-h-screen overflow-y-auto">
       <div className="w-full flex items-center justify-center mb-4">
         <Image src={appImage} alt="logo" width={200} height={200} />
       </div>
@@ -64,8 +70,9 @@ export default function Sidebar({ isSignedIn, firstName }: UserDetailsProps) {
           <Button
             variant="custom"
             className="w-full py-6 text-lg lg:text-xl text-center rounded-full"
+            onClick={() => router.push('/sign-in')}
           >
-            <Link href="/sign-in">Login</Link>
+            Login
           </Button>
         </div>
       ) : (
@@ -78,7 +85,7 @@ export default function Sidebar({ isSignedIn, firstName }: UserDetailsProps) {
                 key={index}
                 className={`${item.route === pathname ? 'bg-blue-900 text-white' : ''} p-2 rounded-3xl`}
               >
-                <Link href={item.route} className="py-3 px-1 rounded-full flex items-center justify-start font-mono w-full gap-5 text-xl"><span className="text-2xl">{item.icon}</span>  {item.title}</Link>
+                <Link href={item.route} className="py-3 px-1 rounded-full flex items-center justify-start w-full gap-5 text-xl"><span className="text-2xl">{item.icon}</span>  {item.title}</Link>
               </button>
             ))}
           </div>

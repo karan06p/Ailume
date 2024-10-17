@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
-import ImageUploader from "@/components/ImageUploader";
 
 export interface UserDetailsProps {
   isSignedIn: boolean | undefined;
