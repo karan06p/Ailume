@@ -38,7 +38,7 @@ Before you begin, ensure you have the following:
    npm install
    ```
 
-4. Edit the `.env.local` file in the root directory and add your Cloudinary and Clerk credentials:
+4. Create a `.env.local` file in the root directory and add your Cloudinary and Clerk credentials:
    ```bash
    # Clerk
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<YourPublishableKey>
