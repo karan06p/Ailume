@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { Progress } from "@/components/ui/progress";
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import appImage from "../assets/logo.png";
+import appImage from "@/public/logo.png";
 import { UserDetailsProps } from "@/app/dashboard/layout";
 import { WiStars } from "react-icons/wi";
 import { RiColorFilterLine } from "react-icons/ri";

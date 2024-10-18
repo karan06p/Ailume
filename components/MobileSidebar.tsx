@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import { LuAlignJustify } from "react-icons/lu";
 import Image from "next/image";
-import appImage from '../assets/logo.png';
+import appImage from '@/public/logo.png';
 import { routes } from "./Sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

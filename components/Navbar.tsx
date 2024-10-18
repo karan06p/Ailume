@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import logo from '../assets/logo.png'
+import logo from '@/public/logo.png'
 import { UserButton } from '@clerk/nextjs'
 import MobileSidebar from './MobileSidebar'
 import { Button } from './ui/button'
