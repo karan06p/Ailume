@@ -11,7 +11,22 @@ export default function ExtractPage() {
     useState<boolean>(false);
   const [prompt, setPrompt] = useState<string | undefined>();
   const [promptValue, setPromptValue] = useState<string | undefined>();
-  const [loading, setLoading] = useState<boolean>(false); // New state for loading effect
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showRequired, setShowRequired] = useState<boolean>(false);
+
+  const handleClick = () => {
+    if (!promptValue) {
+      setShowRequired(true);
+    } else {
+      setShowRequired(false);
+      setLoading(true);
+      setTimeout(() => {
+        setPrompt(promptValue);
+        setApplyTransformation(true);
+        setLoading(false);
+      }, 3000);
+    }
+  };
 
   return (
     <div className="flex justify-center">
@@ -31,6 +46,11 @@ export default function ExtractPage() {
               onChange={(e) => setPromptValue(e.currentTarget.value)}
               placeholder="hair"
             />
+            {showRequired ? (
+              <p className="text-red-600 font-medium">Required</p>
+            ) : (
+              ""
+            )}
           </div>
 
           {/* Original and Transformed Image Sections */}
@@ -60,7 +80,7 @@ export default function ExtractPage() {
                       {({ open }) => (
                         <button
                           onClick={() => open()}
-                          className="bg-blue-800 p-3 rounded-full text-xl text-white"
+                          className="bg-blue-800 p-3 text-xl rounded-full text-white"
                         >
                           <PlusIcon />
                         </button>
@@ -102,14 +122,8 @@ export default function ExtractPage() {
           {/* Button to Apply Transformation */}
           <button
             className="bg-blue-800 text-white p-4 rounded-full"
-            onClick={() => {
-              setLoading(true);
-              setTimeout(() => {
-                setPrompt(promptValue);
-                setApplyTransformation(true);
-                setLoading(false);
-              }, 3000);
-            }}
+            onClick={handleClick}
+            disabled={!isUploaded}
           >
             Extract
           </button>

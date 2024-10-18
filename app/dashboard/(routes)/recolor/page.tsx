@@ -7,9 +7,36 @@ import { TailSpin } from "react-loader-spinner";
 export default function ExtractPage() {
   const [ogImageId, setOgImageId] = useState<any>();
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
-  const [applyTransformation, setApplyTransformation] = useState<boolean>(false);
+  const [applyTransformation, setApplyTransformation] =
+    useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false); // New state for loading effect
-  const [object, setObject] = useState()
+  const [object, setObject] = useState<string | undefined>("");
+  const [color, setColor] = useState<string | undefined>("");
+  const [objectPrompt, setObjectPrompt] = useState<string | undefined>("");
+  const [colorPrompt, setColorPrompt] = useState<string | undefined>("");
+  const [objectRequired, setObjectRequired] = useState<boolean>(false);
+  const [colorRequired, setColorRequired] = useState<boolean>(false);
+
+
+  const handleClick = () => {
+    if(!object){
+      setObjectRequired(true)
+    }else if(!color){
+      setColorRequired(true)
+    }else{
+      setObjectRequired(false)
+      setColorRequired(false)
+      setObjectPrompt(object); 
+      setColorPrompt(color);
+      console.log(color, object)
+
+      setLoading(true);
+      setTimeout(() => {
+        setApplyTransformation(true);
+        setLoading(false);
+      }, 3000);
+    }
+  }
 
   return (
     <div className="flex justify-center">
@@ -24,21 +51,32 @@ export default function ExtractPage() {
           <div className="flex flex-col md:flex-row mt-7 gap-3 w-full">
             <div className="w-full md:w-1/2">
               <p className="font-semibold text-xl">Object to Recolor</p>
-            <input
-              type="text"
-              className="shadow-lg rounded-lg border-2 p-3 w-full"
-              placeholder="shoes"
-            />
+              <input
+                type="text"
+                className="shadow-lg rounded-lg border-2 p-3 w-full h-[46px]"
+                placeholder="shoes"
+                onChange={(e) => setObject(e.currentTarget.value)}
+              />
+              {
+                objectRequired ? <p className="text-red-600">Required</p> : ''
+              }
             </div>
             <div className="w-full md:w-1/2">
               <p className="font-semibold text-xl">Color</p>
-            <input
-              type="color"
-              className="w-full h-full shadow-lg rounded-lg border-2 p-1"
-              placeholder="hair"
-            />
+              <input
+                type="color"
+                className="w-full shadow-lg rounded-lg p-[2px] border-2 h-[46px]"
+                placeholder="hair"
+                onChange={(e) => {
+                  const color = e.currentTarget.value
+                  const slicedColor = color.slice(1)
+                  setColor(slicedColor)
+                }}
+              />
+              {
+                colorRequired ? <p className="text-red-600">Required</p> : ''
+              }
             </div>
-            
           </div>
 
           {/* Original and Transformed Image Sections */}
@@ -51,7 +89,6 @@ export default function ExtractPage() {
                     <CldImage
                       alt="uploaded-image"
                       src={ogImageId}
-                      sizes="10vw"
                       fill
                       style={{ objectFit: "contain" }}
                     />
@@ -89,18 +126,17 @@ export default function ExtractPage() {
                         color="black"
                         ariaLabel="loading"
                       />
-                    </div> 
+                    </div>
                   ) : applyTransformation ? (
                     <CldImage
                       alt="transformed-image"
                       src={ogImageId}
-                      sizes="10vw"
                       fill
                       style={{ objectFit: "contain" }}
                       recolor={{
-                        prompt:"cloth",
-                        to:"2C2A2A",
-                        multiple:false
+                        prompt: objectPrompt,
+                        to: colorPrompt,
+                        multiple: false,
                       }}
                     />
                   ) : (
@@ -114,15 +150,10 @@ export default function ExtractPage() {
           {/* Button to Apply Transformation */}
           <button
             className="bg-blue-800 text-white p-4 rounded-full"
-            onClick={() => {
-              setLoading(true);
-              setTimeout(() => {
-                setApplyTransformation(true);
-                setLoading(false);
-              }, 3000);
-            }}
+            onClick={handleClick}
+            disabled={!isUploaded}
           >
-            Extract
+            Recolor
           </button>
         </div>
       </div>
