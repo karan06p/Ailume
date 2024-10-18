@@ -5,17 +5,16 @@ import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 
 export default function ExtractPage() {
-  const [ogImageId, setOgImageId] = useState<any>();
-  const [isUploaded, setIsUploaded] = useState<boolean>(false);
-  const [applyTransformation, setApplyTransformation] =
-    useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false); // New state for loading effect
-  const [object, setObject] = useState<string | undefined>("");
-  const [color, setColor] = useState<string | undefined>("");
-  const [objectPrompt, setObjectPrompt] = useState<string | undefined>("");
-  const [colorPrompt, setColorPrompt] = useState<string | undefined>("");
-  const [objectRequired, setObjectRequired] = useState<boolean>(false);
-  const [colorRequired, setColorRequired] = useState<boolean>(false);
+  const [ogImageId, setOgImageId] = useState();
+  const [isUploaded, setIsUploaded] = useState(false);
+  const [applyTransformation, setApplyTransformation] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [object, setObject] = useState("");
+  const [color, setColor] = useState("");
+  const [objectPrompt, setObjectPrompt] = useState("");
+  const [colorPrompt, setColorPrompt] = useState("");
+  const [objectRequired, setObjectRequired] = useState(false);
+  const [colorRequired, setColorRequired] = useState(false);
 
 
   const handleClick = () => {
@@ -28,8 +27,6 @@ export default function ExtractPage() {
       setColorRequired(false)
       setObjectPrompt(object); 
       setColorPrompt(color);
-      console.log(color, object)
-
       setLoading(true);
       setTimeout(() => {
         setApplyTransformation(true);
@@ -95,7 +92,7 @@ export default function ExtractPage() {
                   ) : (
                     <CldUploadWidget
                       uploadPreset="pixalix"
-                      onSuccess={(result: any, { widget }) => {
+                      onSuccess={(result, { widget }) => {
                         const publicId = result.info.public_id;
                         setOgImageId(publicId);
                         widget.close();

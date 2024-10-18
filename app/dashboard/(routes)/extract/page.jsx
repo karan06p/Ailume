@@ -1,18 +1,17 @@
 "use client";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { CldImage, CldUploadWidget } from "next-cloudinary";
+import { CldImage, CldUploadWidget, CloudinaryUploadWidgetInfo, CloudinaryUploadWidgetResults } from "next-cloudinary";
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 
 export default function ExtractPage() {
-  const [ogImageId, setOgImageId] = useState<any>();
-  const [isUploaded, setIsUploaded] = useState<boolean>(false);
-  const [applyTransformation, setApplyTransformation] =
-    useState<boolean>(false);
-  const [prompt, setPrompt] = useState<string | undefined>();
-  const [promptValue, setPromptValue] = useState<string | undefined>();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [showRequired, setShowRequired] = useState<boolean>(false);
+  const [ogImageId, setOgImageId] = useState();
+  const [isUploaded, setIsUploaded] = useState(false);
+  const [applyTransformation, setApplyTransformation] = useState(false);
+  const [prompt, setPrompt] = useState();
+  const [promptValue, setPromptValue] = useState();
+  const [loading, setLoading] = useState(false);
+  const [showRequired, setShowRequired] = useState(false);
 
   const handleClick = () => {
     if (!promptValue) {
@@ -70,8 +69,8 @@ export default function ExtractPage() {
                   ) : (
                     <CldUploadWidget
                       uploadPreset="pixalix"
-                      onSuccess={(result: any, { widget }) => {
-                        const publicId = result.info.public_id;
+                      onSuccess={(result , { widget }) => {
+                        const publicId = result?.info?.public_id
                         setOgImageId(publicId);
                         widget.close();
                         setIsUploaded(true);
