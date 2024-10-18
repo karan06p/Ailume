@@ -1,6 +1,6 @@
 "use client";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { CldImage, CldUploadWidget, CloudinaryUploadWidgetInfo, CloudinaryUploadWidgetResults } from "next-cloudinary";
+import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 
