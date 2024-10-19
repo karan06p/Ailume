@@ -23,7 +23,7 @@ export default function ExtractPage() {
         setPrompt(promptValue);
         setApplyTransformation(true);
         setLoading(false);
-      }, 3000);
+      }, 5000);
     }
   };
 
@@ -62,7 +62,6 @@ export default function ExtractPage() {
                     <CldImage
                       alt="uploaded-image"
                       src={ogImageId}
-                      sizes="10vw"
                       fill
                       style={{ objectFit: "contain" }}
                     />
@@ -105,7 +104,6 @@ export default function ExtractPage() {
                     <CldImage
                       alt="transformed-image"
                       src={ogImageId}
-                      sizes="10vw"
                       fill
                       style={{ objectFit: "contain" }}
                       extract={prompt}
