@@ -4,80 +4,25 @@ import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 
-export default function RecolorPage() {
+export default function ExtractPage() {
   const [ogImageId, setOgImageId] = useState();
   const [isUploaded, setIsUploaded] = useState(false);
   const [applyTransformation, setApplyTransformation] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [object, setObject] = useState("");
-  const [color, setColor] = useState("");
-  const [objectPrompt, setObjectPrompt] = useState("");
-  const [colorPrompt, setColorPrompt] = useState("");
-  const [objectRequired, setObjectRequired] = useState(false);
-  const [colorRequired, setColorRequired] = useState(false);
 
-
-  const handleClick = () => {
-    if(!object){
-      setObjectRequired(true)
-    }else if(!color){
-      setColorRequired(true)
-    }else{
-      setObjectRequired(false)
-      setColorRequired(false)
-      setObjectPrompt(object); 
-      setColorPrompt(color);
-      setLoading(true);
-      setTimeout(() => {
-        setApplyTransformation(true);
-        setLoading(false);
-      }, 3000);
-    }
-  }
-
+  
   return (
     <div className="flex justify-center">
       <div className="pl-5 pt-5 w-[50rem] mr-8 mb-8">
         <div className="flex-col items-start">
-          <h3 className="font-bold text-3xl mb-3 md:mt-6">Recolor Objects</h3>
-          <p>Recolor objects in your images by just giving a prompt.</p>
+          <h3 className="font-bold text-3xl mb-3 md:mt-6">Remove Background</h3>
+          <p>Remove Background from your images with AI.</p>
         </div>
 
-        {/* Input for Prompt */}
+       
         <div className="flex flex-col gap-8">
-          <div className="flex flex-col md:flex-row mt-7 gap-3 w-full">
-            <div className="w-full md:w-1/2">
-              <p className="font-semibold text-xl">Object to Recolor</p>
-              <input
-                type="text"
-                className="shadow-lg rounded-lg border-2 p-3 w-full h-[46px]"
-                placeholder="shoes"
-                onChange={(e) => setObject(e.currentTarget.value)}
-              />
-              {
-                objectRequired ? <p className="text-red-600">Required</p> : ''
-              }
-            </div>
-            <div className="w-full md:w-1/2">
-              <p className="font-semibold text-xl">Color</p>
-              <input
-                type="color"
-                className="w-full shadow-lg rounded-lg p-[2px] border-2 h-[46px]"
-                placeholder="hair"
-                onChange={(e) => {
-                  const color = e.currentTarget.value
-                  const slicedColor = color.slice(1)
-                  setColor(slicedColor)
-                }}
-              />
-              {
-                colorRequired ? <p className="text-red-600">Required</p> : ''
-              }
-            </div>
-          </div>
-
           {/* Original and Transformed Image Sections */}
-          <div className="w-full">
+          <div className="w-full mt-16 ">
             <div className="md:flex w-full md:gap-6">
               <div className="w-full md:w-1/2">
                 <p className="font-semibold text-xl mb-2">Original Image</p>
@@ -92,8 +37,8 @@ export default function RecolorPage() {
                   ) : (
                     <CldUploadWidget
                       uploadPreset="pixalix"
-                      onSuccess={(result, { widget }) => {
-                        const publicId = result.info.public_id;
+                      onSuccess={(result , { widget }) => {
+                        const publicId = result?.info?.public_id
                         setOgImageId(publicId);
                         widget.close();
                         setIsUploaded(true);
@@ -102,7 +47,7 @@ export default function RecolorPage() {
                       {({ open }) => (
                         <button
                           onClick={() => open()}
-                          className="bg-blue-800 p-3 rounded-full text-xl text-white"
+                          className="bg-blue-800 p-3 text-xl rounded-full text-white"
                         >
                           <PlusIcon />
                         </button>
@@ -123,18 +68,14 @@ export default function RecolorPage() {
                         color="black"
                         ariaLabel="loading"
                       />
-                    </div>
+                    </div> // Loading spinner
                   ) : applyTransformation ? (
                     <CldImage
                       alt="transformed-image"
                       src={ogImageId}
                       fill
                       style={{ objectFit: "contain" }}
-                      recolor={{
-                        prompt: objectPrompt,
-                        to: colorPrompt,
-                        multiple: false,
-                      }}
+                      removeBackground
                     />
                   ) : (
                     "Transformed Image"
@@ -147,10 +88,15 @@ export default function RecolorPage() {
           {/* Button to Apply Transformation */}
           <button
             className="bg-blue-800 text-white p-4 rounded-full"
-            onClick={handleClick}
+            onClick={() => {
+                setLoading(true)
+                setApplyTransformation(true)
+                setTimeout(() => setLoading(false), 10000)
+              }
+            }
             disabled={!isUploaded}
           >
-            Recolor
+            Remove
           </button>
         </div>
       </div>
